@@ -1,0 +1,6 @@
+{
+  "name": "Handmade Lippan Art Store",
+  "description": "A premium, authentic e-commerce landing page for traditional mud and mirror relief work",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
