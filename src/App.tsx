@@ -274,12 +274,6 @@ export default function App() {
                     Explore Featured Collection
                     <ArrowRight className="w-4 h-4" />
                   </button>
-                  <button
-                    onClick={() => scrollToSection('custom-config')}
-                    className="px-8 py-4 border border-earth-300 rounded-sm text-xs uppercase tracking-widest font-bold text-earth-800 hover:bg-earth-100 transition-colors flex items-center justify-center gap-2"
-                  >
-                    Custom Size Configurator
-                  </button>
                 </div>
               </div>
 
@@ -547,12 +541,14 @@ export default function App() {
                   Ruchi Sharma frequently designs customized Lippan plaques for homes, yoga spaces, and traditional environments. Reach out to our commission studio to finalize details.
                 </p>
               </div>
-              <button
-                onClick={() => scrollToSection('custom-config')}
-                className="px-6 py-3 bg-earth-800 hover:bg-earth-900 text-gold-100 text-xs uppercase tracking-widest font-bold rounded-sm shadow hover:shadow-md transition-all flex-shrink-0 cursor-pointer"
+              <a
+                href="https://wa.me/919696866194?text=Hi%20Rakshan,%20I'm%20interested%20in%20a%20custom%20Lippan%20art%20commission!"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs uppercase tracking-widest font-bold rounded-sm shadow hover:shadow-md transition-all flex-shrink-0 cursor-pointer font-sans text-center animate-pulse"
               >
-                Launch Custom Studio
-              </button>
+                Discuss on WhatsApp
+              </a>
             </div>
 
           </div>
@@ -609,26 +605,7 @@ export default function App() {
         </section>
 
 
-        {/* 5. INTERACTIVE INLINE CUSTOM CONFIGURATOR STUDIO */}
-        <section id="custom-config" className="py-16 sm:py-24 bg-earth-100/50 border-b border-earth-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-              <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] font-extrabold text-gold-600 block">
-                Bespoke Design Studio
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-earth-950">
-                Design Your Custom Lippan Plate
-              </h2>
-              <div className="w-16 h-0.5 bg-gold-400 mx-auto" />
-              <p className="text-sm text-earth-600 max-w-2xl mx-auto">
-                Not sure what fits? Tinker with our interactive configurator below to adjust geometries, clay color palettes, and mirror complexities, and receive an instant transparent pricing estimate.
-              </p>
-            </div>
 
-            {/* Inline Configurator */}
-            <CustomConfigurator onSubmitRequest={handleCustomRequestSubmit} />
-          </div>
-        </section>
 
         {/* 6. PLEDGE OF AUTHENTICITY & DIRECT CONTACT */}
         <section className="py-16 sm:py-24 bg-white border-b border-earth-200">
@@ -670,12 +647,12 @@ export default function App() {
                 >
                   <MessageCircle className="w-4 h-4 fill-white text-white" /> Share Feedback on WhatsApp
                 </a>
-                <button 
-                  onClick={() => setIsCustomOrderOpen(true)}
+                <a 
+                  href="mailto:rakshansharma644@gmail.com?subject=Inquiry%20about%20Mitti%20%26%20Darpan%20Art"
                   className="flex items-center gap-1.5 px-4 py-2 border border-earth-300 hover:bg-earth-100 text-earth-800 rounded transition-all cursor-pointer font-sans"
                 >
                   <Phone className="w-3.5 h-3.5" /> Speak with Curator
-                </button>
+                </a>
               </div>
             </div>
 
@@ -776,7 +753,6 @@ export default function App() {
               </h4>
               <ul className="space-y-2 text-xs text-earth-300">
                 <li><button onClick={() => scrollToSection('process')} className="hover:text-gold-200 transition-colors cursor-pointer text-left">Our Craft Process</button></li>
-                <li><button onClick={() => scrollToSection('custom-config')} className="hover:text-gold-200 transition-colors cursor-pointer text-left">Custom Request studio</button></li>
                 <li><button onClick={() => scrollToSection('faq')} className="hover:text-gold-200 transition-colors cursor-pointer text-left">FAQ & Assembly Guide</button></li>
                 <li><button onClick={() => setActivePolicy('terms')} className="hover:text-gold-200 transition-colors cursor-pointer text-left">Terms of Service & Privacy Policy</button></li>
               </ul>
@@ -818,14 +794,7 @@ export default function App() {
         discountPercent={couponDiscount * 100}
       />
 
-      {/* 2. Custom Order Commission Pop-up Modal */}
-      {isCustomOrderOpen && (
-        <CustomConfigurator 
-          onSubmitRequest={handleCustomRequestSubmit}
-          isOpenAsModal={true}
-          onCloseModal={() => setIsCustomOrderOpen(false)}
-        />
-      )}
+
 
       {/* 3. Product Quick View Specifications Modal */}
       {selectedProduct && (

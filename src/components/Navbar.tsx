@@ -17,7 +17,6 @@ export default function Navbar({ cart, onOpenCart, onOpenCustomOrder, scrollToSe
   const navLinks = [
     { name: 'Shop Collection', id: 'shop' },
     { name: 'Our Craftsmanship', id: 'process' },
-    { name: 'Custom Creations', id: 'custom-config' },
     { name: 'Heritage Story', id: 'story' },
   ];
 
@@ -61,14 +60,6 @@ export default function Navbar({ cart, onOpenCart, onOpenCustomOrder, scrollToSe
 
           {/* Nav Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <button
-              onClick={onOpenCustomOrder}
-              className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-widest font-semibold border border-earth-300 rounded-sm text-earth-800 hover:bg-earth-100 transition-colors"
-            >
-              <PhoneCall className="w-3.5 h-3.5" />
-              Custom Order
-            </button>
-
             <button
               onClick={() => scrollToSection('shop')}
               className="px-5 py-2.5 text-xs uppercase tracking-widest font-semibold bg-earth-800 text-white hover:bg-earth-900 rounded-sm shadow-sm hover:shadow-md transition-all cursor-pointer"
@@ -140,17 +131,6 @@ export default function Navbar({ cart, onOpenCart, onOpenCustomOrder, scrollToSe
             ))}
             
             <div className="pt-4 pb-2 border-t border-earth-200 px-4 space-y-3">
-              <button
-                onClick={() => {
-                  onOpenCustomOrder();
-                  setMobileMenuOpen(false);
-                }}
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 text-xs uppercase tracking-widest font-semibold border border-earth-300 rounded-sm text-earth-800 hover:bg-earth-100"
-              >
-                <PhoneCall className="w-3.5 h-3.5" />
-                Custom Commission
-              </button>
-              
               <button
                 onClick={() => {
                   scrollToSection('shop');
