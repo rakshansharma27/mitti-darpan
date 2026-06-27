@@ -79,8 +79,8 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
               {product.originalPrice && (
                 <span className="text-xs text-earth-400 line-through font-sans">₹{product.originalPrice}</span>
               )}
-              <span className="text-[10px] uppercase tracking-wider font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded ml-1 font-sans">
-                In Stock
+              <span className="text-[10px] uppercase tracking-wider font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded ml-1 font-sans">
+                1 Unique Unit In Stock
               </span>
             </div>
 

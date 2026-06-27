@@ -9,11 +9,8 @@ export function useCart() {
     setCart((prevCart) => {
       const existing = prevCart.find((item) => item.product.id === product.id);
       if (existing) {
-        return prevCart.map((item) =>
-          item.product.id === product.id 
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
+        // Since inventory is strictly 1 quantity each, we don't increase it.
+        return prevCart;
       }
       return [...prevCart, { product, quantity: 1 }];
     });
@@ -26,9 +23,11 @@ export function useCart() {
       handleRemoveItem(productId);
       return;
     }
+    // Capped at 1 unit maximum since each piece is unique
+    const cappedQty = Math.min(newQty, 1);
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.product.id === productId ? { ...item, quantity: newQty } : item
+        item.product.id === productId ? { ...item, quantity: cappedQty } : item
       )
     );
   };

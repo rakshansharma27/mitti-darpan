@@ -147,12 +147,17 @@ export default function ProductDetailPage({
               </p>
 
               {/* Add to Cart Controls */}
-              <button
-                onClick={() => onAddToCart(product)}
-                className="w-full py-3.5 bg-earth-800 hover:bg-earth-900 text-white hover:text-gold-100 text-xs sm:text-sm uppercase tracking-widest font-bold rounded-sm shadow hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <ShoppingCart className="w-4 h-4" /> Add To Shopping Cart
-              </button>
+              <div className="space-y-2">
+                <button
+                  onClick={() => onAddToCart(product)}
+                  className="w-full py-3.5 bg-earth-800 hover:bg-earth-900 text-white hover:text-gold-100 text-xs sm:text-sm uppercase tracking-widest font-bold rounded-sm shadow hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <ShoppingCart className="w-4 h-4" /> Add To Shopping Cart
+                </button>
+                <div className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200/50 p-2 rounded text-center font-sans font-semibold">
+                  ⚠️ Exclusive Piece: Only 1 unit exists in Ruchi's current physical batch.
+                </div>
+              </div>
             </div>
 
             {/* Description */}

@@ -506,7 +506,7 @@ export default function App() {
                 <div className="h-8 w-px bg-earth-200" />
                 <div className="flex flex-col">
                   <span className="text-earth-400 text-[10px] uppercase">Available</span>
-                  <span className="font-bold text-emerald-700">9 Units Total</span>
+                  <span className="font-bold text-emerald-700">{LIPPAN_PRODUCTS.length} Units Total</span>
                 </div>
               </div>
             </div>

@@ -115,26 +115,10 @@ export default function CartDrawer({
                           </div>
 
                           <div className="flex items-center justify-between pt-2">
-                            {/* Quantity Controls */}
-                            <div className="flex items-center border border-earth-300 rounded bg-white">
-                              <button 
-                                onClick={() => onUpdateQuantity(item.product.id, item.quantity - 1)}
-                                className="p-1 px-2 text-earth-600 hover:bg-earth-100 transition-colors cursor-pointer"
-                                aria-label="Decrease quantity"
-                              >
-                                <Minus className="w-3 h-3" />
-                              </button>
-                              <span className="px-2 text-xs font-bold text-earth-800 font-sans">
-                                {item.quantity}
-                              </span>
-                              <button 
-                                onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
-                                className="p-1 px-2 text-earth-600 hover:bg-earth-100 transition-colors cursor-pointer"
-                                aria-label="Increase quantity"
-                              >
-                                <Plus className="w-3 h-3" />
-                              </button>
-                            </div>
+                            {/* Quantity (Only 1 unique unit in stock) */}
+                            <span className="text-xs text-earth-500 font-sans">
+                              Qty: 1 <span className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200/50 px-1.5 py-0.5 rounded ml-2 font-semibold">Unique Piece</span>
+                            </span>
 
                             {/* Remove button */}
                             <button 
