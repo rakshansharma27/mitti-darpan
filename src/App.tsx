@@ -44,6 +44,25 @@ export default function App() {
     clearCart
   } = useCart();
   
+  // Coupon/Promo code states
+  const [appliedCoupon, setAppliedCoupon] = useState<string>('');
+  const [couponDiscount, setCouponDiscount] = useState<number>(0);
+
+  const handleApplyCoupon = (code: string): boolean => {
+    const cleanCode = code.trim().toUpperCase();
+    if (cleanCode === 'LAUNCH15') {
+      setAppliedCoupon('LAUNCH15');
+      setCouponDiscount(0.15);
+      return true;
+    }
+    return false;
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon('');
+    setCouponDiscount(0);
+  };
+
   // Custom commission modal
   const [isCustomOrderOpen, setIsCustomOrderOpen] = useState<boolean>(false);
   
@@ -176,15 +195,10 @@ export default function App() {
       
       {/* Dynamic Top Announcement Banner */}
       <div className="bg-earth-900 text-gold-100 text-[11px] uppercase tracking-[0.25em] font-semibold py-2 px-4 text-center border-b border-gold-400/20 flex items-center justify-center gap-1.5 flex-wrap">
-        <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse" />
-        <span>Inaugural Collection: Premium safe crated fragile shipping on us</span>
+        <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse animate-duration-1000" />
+        <span>🎉 Use code <strong className="text-white font-sans bg-earth-800 border border-gold-400/30 px-1.5 py-0.5 rounded select-all font-bold">LAUNCH15</strong> for 15% off first orders!</span>
         <span className="hidden sm:inline">|</span>
-        <button 
-          onClick={() => scrollToSection('custom-config')} 
-          className="underline hover:text-white cursor-pointer font-bold"
-        >
-          Commission Custom Sizes
-        </button>
+        <span>Premium safe crated fragile shipping on us</span>
       </div>
 
       {/* Primary Navigation Header */}
@@ -798,6 +812,10 @@ export default function App() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
         onCheckout={handleCheckoutTrigger}
+        appliedCoupon={appliedCoupon}
+        onApplyCoupon={handleApplyCoupon}
+        onRemoveCoupon={handleRemoveCoupon}
+        discountPercent={couponDiscount * 100}
       />
 
       {/* 2. Custom Order Commission Pop-up Modal */}
@@ -810,16 +828,19 @@ export default function App() {
       )}
 
       {/* 3. Product Quick View Specifications Modal */}
-      <QuickViewModal 
-        product={selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-        onAddToCart={handleAddToCart}
-      />
+      {selectedProduct && (
+        <QuickViewModal 
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          onAddToCart={handleAddToCart}
+        />
+      )}
 
       {/* 4. SSL Checkout Simulation Overlays */}
       {isCheckingOut && (() => {
         const subtotal = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-        const grandTotal = subtotal;
+        const discountAmount = subtotal * couponDiscount;
+        const grandTotal = subtotal - discountAmount;
 
         // Construct standard UPI payload
         const upiPayload = `upi://pay?pa=rakshansharma27@sbi&pn=Rakshan%20Sharma&am=${grandTotal.toFixed(2)}&cu=INR&tn=Mitti%20and%20Darpan%20Order%20for%20${encodeURIComponent(customerInfo.name || 'Customer')}`;
@@ -827,8 +848,10 @@ export default function App() {
 
         // Construct WhatsApp confirmation payload
         const itemsList = cart.map(item => `${item.product.name} (Qty: ${item.quantity})`).join(', ');
+        const couponText = appliedCoupon ? `\n- *Promo Code Applied*: ${appliedCoupon} (-${couponDiscount * 100}%)` : '';
         const waMessage = `Hi Rakshan, I have completed the UPI payment for my order!\n\n` +
                           `*Order Details*:\n- ${itemsList}\n` +
+                          `- *Subtotal*: ₹${subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}${couponText}\n` +
                           `- *Total Paid*: ₹${grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n\n` +
                           `*Delivery Details*:\n` +
                           `- *Name*: ${customerInfo.name}\n` +
@@ -901,7 +924,19 @@ export default function App() {
                   </div>
 
                   <div className="bg-earth-50 p-3.5 border border-earth-200 rounded text-xs space-y-1">
-                    <div className="flex justify-between font-bold text-earth-900 font-serif text-sm">
+                    {appliedCoupon && (
+                      <div className="flex justify-between text-earth-600 font-sans">
+                        <span>Subtotal:</span>
+                        <span>₹{subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                      </div>
+                    )}
+                    {appliedCoupon && (
+                      <div className="flex justify-between text-emerald-755 font-semibold font-sans">
+                        <span>Promo Discount ({appliedCoupon}):</span>
+                        <span>-₹{discountAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between font-bold text-earth-900 font-serif text-sm border-t border-earth-200/60 pt-1.5 mt-1.5">
                       <span>Total Payable:</span>
                       <span>₹{grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
                     </div>

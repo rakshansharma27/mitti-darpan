@@ -8,6 +8,10 @@ interface CartDrawerProps {
   onUpdateQuantity: (id: string, qty: number) => void;
   onRemoveItem: (id: string) => void;
   onCheckout: () => void;
+  appliedCoupon: string;
+  onApplyCoupon: (code: string) => boolean;
+  onRemoveCoupon: () => void;
+  discountPercent: number;
 }
 
 export default function CartDrawer({
@@ -16,7 +20,11 @@ export default function CartDrawer({
   cart,
   onUpdateQuantity,
   onRemoveItem,
-  onCheckout
+  onCheckout,
+  appliedCoupon,
+  onApplyCoupon,
+  onRemoveCoupon,
+  discountPercent
 }: CartDrawerProps) {
   if (!isOpen) return null;
 
@@ -24,8 +32,9 @@ export default function CartDrawer({
   const subtotal = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
   
   // Custom calculations
+  const discountAmount = subtotal * (discountPercent / 100);
   const shippingGuaranteeFee = 0.00; // Free for premium launch, normally ₹1,500
-  const grandTotal = subtotal + shippingGuaranteeFee;
+  const grandTotal = subtotal - discountAmount + shippingGuaranteeFee;
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
@@ -141,11 +150,65 @@ export default function CartDrawer({
             {/* Cart Footer */}
             {cart.length > 0 && (
               <div className="border-t border-earth-200 px-6 py-6 bg-earth-100 space-y-4">
+                {/* Coupon Code Section */}
+                <div className="border-b border-earth-200/60 pb-3 font-sans">
+                  {appliedCoupon ? (
+                    <div className="flex justify-between items-center bg-emerald-50 border border-emerald-200 rounded px-3 py-2 text-xs">
+                      <span className="text-emerald-800 font-semibold flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        Code Applied: {appliedCoupon} (-{discountPercent}%)
+                      </span>
+                      <button
+                        onClick={onRemoveCoupon}
+                        className="text-earth-400 hover:text-red-650 font-semibold cursor-pointer underline text-[10px] uppercase hover:text-red-700"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <form 
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const formData = new FormData(e.currentTarget);
+                        const code = formData.get('couponCode') as string;
+                        if (code) {
+                          const success = onApplyCoupon(code);
+                          if (!success) {
+                            alert('Invalid coupon code. Try "LAUNCH15"!');
+                          } else {
+                            e.currentTarget.reset();
+                          }
+                        }
+                      }}
+                      className="flex gap-2"
+                    >
+                      <input
+                        type="text"
+                        name="couponCode"
+                        placeholder="Promo Code (e.g. LAUNCH15)"
+                        className="flex-1 px-3 py-1.5 bg-white border border-earth-200 rounded text-xs focus:outline-none focus:border-earth-800 placeholder:text-earth-400 uppercase font-sans"
+                      />
+                      <button
+                        type="submit"
+                        className="px-3.5 py-1.5 bg-earth-800 text-white text-[11px] font-bold rounded uppercase tracking-wider hover:bg-earth-900 transition-colors cursor-pointer font-sans"
+                      >
+                        Apply
+                      </button>
+                    </form>
+                  )}
+                </div>
+
                 <div className="space-y-1.5 text-xs text-earth-600 font-sans">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
                     <span className="font-bold text-earth-800">₹{subtotal.toFixed(2)}</span>
                   </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-emerald-700">
+                      <span>Promo Discount ({appliedCoupon})</span>
+                      <span className="font-bold">-₹{discountAmount.toFixed(2)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between items-center text-emerald-700">
                     <span className="flex items-center gap-1">
                       Safe Fragile Insured Shipping 
